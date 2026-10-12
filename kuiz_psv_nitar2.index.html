@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misi Kebenaran PSV - SK LKTP Nitar 2</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #1e1b4b 0%, #311042 50%, #450a0a 100%);
+        }
+
+        .font-comic {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 1.5px;
+        }
+
+        .card-glass {
+            background: rgba(30, 41, 59, 0.88);
+            backdrop-filter: blur(16px);
+            border: 2px solid rgba(251, 191, 36, 0.4);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+        }
+
+        .btn-kebenaran {
+            background: linear-gradient(185deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 6px 0 #92400e;
+            transition: all 0.1s ease;
+        }
+
+        .btn-kebenaran:hover {
+            background: linear-gradient(185deg, #fbbf24 0%, #f59e0b 100%);
+        }
+
+        .btn-kebenaran:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #92400e;
+        }
+
+        /* Lencana Kebenaran Glow Effect */
+        .badge-glow {
+            box-shadow: 0 0 35px rgba(245, 158, 11, 0.8);
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(1); box-shadow: 0 0 20px rgba(245, 158, 11, 0.6); }
+            100% { transform: scale(1.05); box-shadow: 0 0 40px rgba(251, 191, 36, 0.9); }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col justify-between p-2 sm:p-4">
+
+    <!-- Header & HUD Gamifikasi -->
+    <header class="max-w-4xl mx-auto w-full mb-4">
+        <div class="card-glass p-3 sm:p-4 rounded-2xl flex flex-wrap justify-between items-center gap-3 shadow-2xl border-amber-500/50">
+            <div class="flex items-center gap-3">
+                <!-- Vector Art Cikgu Kebenaran (Papa Zola Style) -->
+                <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-amber-400 to-red-600 rounded-full border-2 border-white flex items-center justify-center shadow-lg overflow-hidden shrink-0">
+                    <svg viewBox="0 0 100 100" class="w-full h-full">
+                        <circle cx="50" cy="50" r="48" fill="#d97706" />
+                        <!-- Topi / Super Mask -->
+                        <path d="M 10 35 Q 50 15 90 35 L 90 60 Q 50 75 10 60 Z" fill="#991b1b" />
+                        <!-- Topeng Muka -->
+                        <rect x="20" y="38" width="60" height="22" rx="8" fill="#1e1b4b" />
+                        <!-- Mata Kebenaran -->
+                        <circle cx="36" cy="49" r="6" fill="#fbbf24" />
+                        <circle cx="64" cy="49" r="6" fill="#fbbf24" />
+                        <!-- Kumut Gagah Papa Zola -->
+                        <path d="M 30 65 Q 50 55 70 65 Q 50 78 30 65" fill="#0f172a" />
+                        <!-- Senyuman -->
+                        <path d="M 32 75 Q 50 88 68 75" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-comic text-xl sm:text-2xl text-amber-400 tracking-wider">CIKGU KEBENARAN</h1>
+                    <p class="text-xs font-bold text-amber-200/80">SK LKTP NITAR 2 • MISI PSV</p>
+                </div>
+            </div>
+
+            <!-- Stats HUD -->
+            <div id="hud-stats" class="flex items-center gap-3 bg-slate-900/90 px-4 py-2 rounded-xl border border-amber-500/30">
+                <div class="flex items-center gap-1.5">
+                    <i data-lucide="zap" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                    <span id="score-display" class="font-bold text-amber-400 text-sm sm:text-base">0 XP</span>
+                </div>
+                <div class="h-4 w-px bg-slate-700"></div>
+                <div class="flex items-center gap-1.5">
+                    <i data-lucide="flame" class="w-5 h-5 text-orange-500 fill-orange-500"></i>
+                    <span id="streak-display" class="font-bold text-orange-400 text-sm sm:text-base">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Game Container -->
+    <main class="max-w-4xl mx-auto w-full my-auto">
+
+        <!-- SCREEN 1: WELCOME SCREEN -->
+        <div id="screen-welcome" class="card-glass p-6 sm:p-10 rounded-3xl text-center space-y-6 shadow-2xl">
+            <!-- Large Vector Art Mask -->
+            <div class="w-28 h-28 mx-auto bg-gradient-to-br from-amber-400 to-red-600 rounded-full border-4 border-white flex items-center justify-center shadow-2xl overflow-hidden animate-bounce">
+                <svg viewBox="0 0 100 100" class="w-full h-full">
+                    <circle cx="50" cy="50" r="48" fill="#d97706" />
+                    <path d="M 10 35 Q 50 15 90 35 L 90 60 Q 50 75 10 60 Z" fill="#991b1b" />
+                    <rect x="20" y="38" width="60" height="22" rx="8" fill="#1e1b4b" />
+                    <circle cx="36" cy="49" r="6" fill="#fbbf24" />
+                    <circle cx="64" cy="49" r="6" fill="#fbbf24" />
+                    <path d="M 30 65 Q 50 55 70 65 Q 50 78 30 65" fill="#0f172a" />
+                    <path d="M 32 75 Q 50 88 68 75" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" />
+                </svg>
+            </div>
+            
+            <h2 class="font-comic text-3xl sm:text-5xl text-amber-400 text-glow">
+                "KEBENARAN DI SINI!"
+            </h2>
+            <p class="text-slate-200 text-base sm:text-lg max-w-xl mx-auto font-medium leading-relaxed">
+                Wahai anak-anak murid <span class="text-amber-300 font-bold">SK LKTP Nitar 2</span> yang dikasihi!
+                Adakah kamu bersedia untuk menghadapi cabaran <span class="text-amber-300 font-bold">65 Soalan Unsur Seni</span> bersama Cikgu Kebenaran dan memenangi <span class="text-amber-400 font-bold">Lencana Kebenaran</span>?
+            </p>
+
+            <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/60 max-w-md mx-auto text-left text-xs sm:text-sm space-y-2 text-slate-300">
+                <div class="flex items-center gap-2 text-amber-400 font-bold">
+                    <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    <span>ALUR MISI KEBENARAN:</span>
+                </div>
+                <p>• <strong>5 Soalan Basic Panas Badan</strong> (Fakta & Asas Unsur Seni)</p>
+                <p>• <strong>60 Soalan Khas</strong> (10 Soalan bagi setiap 6 Unsur Seni)</p>
+                <p>• Penerangan jawapan betul disertakan jika tersilap memilih!</p>
+            </div>
+
+            <button onclick="startQuiz()" class="btn-kebenaran text-slate-950 font-comic text-2xl px-8 py-4 rounded-2xl w-full sm:w-auto transform hover:scale-105 transition-all shadow-xl">
+                MULAKAN MISI KEBENARAN! 🚀
+            </button>
+        </div>
+
+        <!-- SCREEN 2: PLAYING INTERFACE -->
+        <div id="screen-quiz" class="hidden space-y-4">
+            <!-- Progress Bar -->
+            <div class="card-glass p-4 rounded-2xl space-y-2">
+                <div class="flex justify-between items-center text-xs sm:text-sm font-bold">
+                    <span id="category-badge" class="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-full font-comic tracking-wider">
+                        PANAS BADAN KEBENARAN
+                    </span>
+                    <span id="question-tracker" class="text-slate-300">Soalan 1 / 65</span>
+                </div>
+                <div class="w-full bg-slate-900 h-3 rounded-full overflow-hidden border border-slate-700">
+                    <div id="progress-bar" class="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="card-glass p-6 sm:p-8 rounded-3xl space-y-6">
+                <!-- Cikgu Kebenaran Dialogue Box -->
+                <div class="bg-amber-950/40 border-l-4 border-amber-400 p-4 rounded-r-2xl flex items-start gap-3">
+                    <div class="w-10 h-10 bg-amber-500 rounded-full border border-white shrink-0 overflow-hidden mt-1">
+                        <svg viewBox="0 0 100 100" class="w-full h-full">
+                            <circle cx="50" cy="50" r="48" fill="#d97706" />
+                            <path d="M 10 35 Q 50 15 90 35 L 90 60 Q 50 75 10 60 Z" fill="#991b1b" />
+                            <rect x="20" y="38" width="60" height="22" rx="8" fill="#1e1b4b" />
+                            <circle cx="36" cy="49" r="6" fill="#fbbf24" />
+                            <circle cx="64" cy="49" r="6" fill="#fbbf24" />
+                            <path d="M 30 65 Q 50 55 70 65 Q 50 78 30 65" fill="#0f172a" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-comic text-amber-400 text-sm tracking-wide">CIKGU KEBENARAN BERKATA:</p>
+                        <h3 id="question-text" class="text-lg sm:text-xl font-bold text-slate-100 leading-relaxed mt-1">
+                            Memuatkan soalan...
+                        </h3>
+                    </div>
+                </div>
+
+                <!-- Answer Choices -->
+                <div id="options-container" class="grid grid-cols-1 gap-3"></div>
+
+                <!-- Rationale / Feedback Area -->
+                <div id="feedback-area" class="hidden p-5 rounded-2xl border space-y-3 transition-all">
+                    <div id="feedback-status" class="flex items-center gap-2 font-comic text-xl"></div>
+                    <p id="rationale-text" class="text-sm sm:text-base text-slate-200 leading-relaxed font-medium"></p>
+                </div>
+
+                <!-- Footer Actions -->
+                <div class="flex justify-between items-center pt-2">
+                    <button id="hint-btn" onclick="toggleHint()" class="flex items-center gap-2 text-xs sm:text-sm text-amber-400 hover:text-amber-300 bg-amber-400/10 px-4 py-2.5 rounded-xl border border-amber-400/30 transition-all font-bold">
+                        <i data-lucide="lightbulb" class="w-4 h-4"></i>
+                        <span>PETUNJUK KEBENARAN</span>
+                    </button>
+                    <button id="next-btn" onclick="nextQuestion()" disabled class="btn-kebenaran disabled:opacity-40 disabled:hover:scale-100 text-slate-950 font-comic text-lg px-6 py-2.5 rounded-xl flex items-center gap-2">
+                        <span>SOALAN SETERUSNYA</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                
+                <p id="hint-text" class="hidden text-xs sm:text-sm text-amber-300 italic bg-amber-950/60 p-3 rounded-xl border border-amber-500/40"></p>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: RESULT & BADGE SCREEN -->
+        <div id="screen-result" class="hidden card-glass p-8 sm:p-12 rounded-3xl text-center space-y-6 shadow-2xl">
+            <!-- LENCANA KEBENARAN GAMIFIKASI -->
+            <div id="badge-container" class="relative w-40 h-40 mx-auto bg-gradient-to-tr from-amber-500 via-amber-300 to-yellow-500 rounded-full border-4 border-amber-200 p-2 flex flex-col items-center justify-center badge-glow text-slate-950 shadow-2xl">
+                <div class="absolute -top-3 bg-red-600 text-white font-comic text-xs px-3 py-0.5 rounded-full border border-white">
+                    SK LKTP NITAR 2
+                </div>
+                <i data-lucide="award" class="w-16 h-16 text-red-900 mb-1"></i>
+                <span class="font-comic text-lg leading-none tracking-wider text-red-950">LENCANA</span>
+                <span class="font-comic text-xl leading-none text-red-900 font-extrabold">KEBENARAN</span>
+            </div>
+
+            <h2 class="font-comic text-4xl sm:text-6xl text-amber-400 text-glow">
+                TAHNIAH WIRA NITAR 2!
+            </h2>
+            <p id="rank-title" class="text-xl sm:text-2xl font-bold text-slate-200">
+                Pangkat Kebenaran: SIFU UNSUR SENI
+            </p>
+
+            <div class="grid grid-cols-3 gap-4 max-w-lg mx-auto">
+                <div class="bg-slate-900/90 p-4 rounded-2xl border border-amber-500/30">
+                    <span class="block text-xs text-slate-400 font-bold">JUMLAH SKOR</span>
+                    <span id="final-score" class="text-2xl sm:text-3xl font-comic text-amber-400">0 XP</span>
+                </div>
+                <div class="bg-slate-900/90 p-4 rounded-2xl border border-amber-500/30">
+                    <span class="block text-xs text-slate-400 font-bold">KETEPATAN</span>
+                    <span id="final-accuracy" class="text-2xl sm:text-3xl font-comic text-emerald-400">0%</span>
+                </div>
+                <div class="bg-slate-900/90 p-4 rounded-2xl border border-amber-500/30">
+                    <span class="block text-xs text-slate-400 font-bold">KOMBO MAX</span>
+                    <span id="final-streak" class="text-2xl sm:text-3xl font-comic text-orange-400">0</span>
+                </div>
+            </div>
+
+            <p id="result-message" class="text-slate-300 max-w-lg mx-auto text-sm sm:text-base leading-relaxed">
+                "KEBENARAN! Kamu secara rasminya dianugerahkan Lencana Kebenaran PSV atas kejayaan menguasai kesemua 6 Unsur Seni!"
+            </p>
+
+            <button onclick="resetQuiz()" class="btn-kebenaran text-slate-950 font-comic text-xl px-8 py-3.5 rounded-2xl">
+                MAIN SEMULA MISI KEBENARAN 🔄
+            </button>
+        </div>
+
+    </main>
+
+    <footer class="text-center text-xs text-amber-300/60 py-4 font-semibold">
+        Gamifikasi Pendidikan Seni Visual • Cikgu Kebenaran • Khas Untuk Murid SK LKTP Nitar 2
+    </footer>
+
+    <script>
+        // DATASET LENGKAP 65 SOALAN (5 PANAS BADAN + 60 UNSUR SENI)
+        const questionsData = [
+            // --- 5 SOALAN PANAS BADAN (BASIC) ---
+            {
+                category: "PANAS BADAN",
+                question: "Wahai anak-anak murid Nitar 2! Ada berapakah jumlah Unsur Seni dalam asas Pendidikan Seni Visual?",
+                hint: "Fikirkan bilangan jari di satu tangan ditambah satu!",
+                options: [
+                    { text: "6 Unsur Seni", isCorrect: true, rationale: "KEBENARAN! Terdapat tepat 6 Unsur Seni asas iaitu Garisan, Rupa, Bentuk, Jalinan, Ruang dan Warna!" },
+                    { text: "4 Unsur Seni", isCorrect: false, rationale: "TIDAK TEPAT! 4 itu terlalu sedikit anak muridku. Jumlah Unsur Seni yang sebenar ialah 6!" },
+                    { text: "5 Unsur Seni", isCorrect: false, rationale: "HAMPIR TEPAT! Tetapi jangan lupa satu lagi unsur penting. Jumlah keseluruhannya ialah 6!" },
+                    { text: "8 Unsur Seni", isCorrect: false, rationale: "TERLALU BANYAK! Unsur seni asas hanya ada 6 sahaja wahai anak murid Nitar 2!" }
+                ]
+            },
+            {
+                category: "PANAS BADAN",
+                question: "Apakah 6 Unsur Seni asas yang wajib dihafali oleh Wira Nitar 2?",
+                hint: "Pastikan ada Garisan, Rupa, Bentuk, Jalinan, Ruang dan Warna.",
+                options: [
+                    { text: "Garisan, Rupa, Bentuk, Jalinan, Ruang, Warna", isCorrect: true, rationale: "SYABAS! Inilah 6 Unsur Seni lengkap yang menjadi tiang utama karya seni visual!" },
+                    { text: "Garisan, Imbangan, Warna, Harmoni, Rupa, Penegasan", isCorrect: false, rationale: "AWAS! Imbangan, Harmoni dan Penegasan ialah Prinsip Rekaan, bukannya Unsur Seni!" },
+                    { text: "Lukisan, Catan, Arca, Cetakan, Kolaj, Montaj", isCorrect: false, rationale: "SALAH! Itu adalah bidang/teknik menghasilkan karya seni, bukannya Unsur Seni." },
+                    { text: "Bentuk, Ruang, Tumbuhan, Haiwan, Warna, Garisan", isCorrect: false, rationale: "TIDAK TEPAT! Tumbuhan dan Haiwan bukannya unsur seni visual wahai muridku!" }
+                ]
+            },
+            {
+                category: "PANAS BADAN",
+                question: "Apakah maksud sebenar Unsur Seni dalam bahasa Kebenaran?",
+                hint: "Ia merupakan asas terpenting untuk membina sesuatu karya.",
+                options: [
+                    { text: "Asas paling utama dalam penghasilan sesebuah karya seni visual.", isCorrect: true, rationale: "TEPAT SEKALI! Unsur seni ialah elemen-elemen asas binaan yang digunakan oleh seniman untuk mencipta karya." },
+                    { text: "Peraturan pertandingan melukis di sekolah.", isCorrect: false, rationale: "BUKAN! Unsur seni bukan peraturan pertandingan tetapi elemen pembinaan lukisan itu sendiri." },
+                    { text: "Jenis-jenis kertas dan warna yang dibeli di kedai.", isCorrect: false, rationale: "TIDAK! Itu adalah media atau bahan lukisan, bukannya unsur seni." },
+                    { text: "Niat seniman sebelum mula melukis gambar.", isCorrect: false, rationale: "SALAH! Unsur seni ialah komponen fizikal visual pada karya, bukannya sekadar niat." }
+                ]
+            },
+            {
+                category: "PANAS BADAN",
+                question: "Manakah antara berikut BUKAN daripada 6 Unsur Seni?",
+                hint: "Cari elemen yang tergolong dalam Prinsip Rekaan.",
+                options: [
+                    { text: "Harmoni", isCorrect: true, rationale: "KEBENARAN! Harmoni tergolong dalam Prinsip Rekaan, bukan Unsur Seni!" },
+                    { text: "Garisan", isCorrect: false, rationale: "SALAH! Garisan ialah unsur seni yang paling asas sekali." },
+                    { text: "Jalinan", isCorrect: false, rationale: "TIDAK TEPAT! Jalinan adalah salah satu daripada 6 unsur seni." },
+                    { text: "Warna", isCorrect: false, rationale: "KURANG TEPAT! Warna adalah unsur seni yang memberi keindahan visual." }
+                ]
+            },
+            {
+                category: "PANAS BADAN",
+                question: "Apakah unsur seni paling ASAS yang bermula daripada satu titik yang bergerak?",
+                hint: "Bila titik ditarik, ia menjadi laluan berpanjangan.",
+                options: [
+                    { text: "Garisan", isCorrect: true, rationale: "LUAR BIASA! Garisan bermula daripada pergerakan satu titik di atas permukaan. Ia unsur paling asas!" },
+                    { text: "Rupa", isCorrect: false, rationale: "BUKAN! Rupa hanya terbentuk apabila hujung garisan bertemu dengan permulaannya." },
+                    { text: "Jalinan", isCorrect: false, rationale: "TIDAK TEPAT! Jalinan ialah kesan permukaan, bukannya titikan berangkai." },
+                    { text: "Bentuk", isCorrect: false, rationale: "SALAH! Bentuk mempunyai struktur 3 Dimensi, terbentuk dari gabungan rupa." }
+                ]
+            },
+
+            // --- 10 SOALAN GARISAN ---
+            {
+                category: "GARISAN",
+                question: "Garisan manakah yang memberikan perasaan tenang, stabil dan rehat seperti laut yang tenang?",
+                hint: "Garisan melintang secara mendatar.",
+                options: [
+                    { text: "Garisan Melintang (Mendatar)", isCorrect: true, rationale: "KEBENARAN! Garisan melintang memberi ilusi ketenangan, keharmonian dan kedamaian." },
+                    { text: "Garisan ZIG-ZAG", isCorrect: false, rationale: "SALAH! Garisan zig-zag memberi kesan bahaya atau pergerakan kelam-kabut." },
+                    { text: "Garisan Tegak", isCorrect: false, rationale: "BUKAN! Garisan tegak memberi kesan stabil, megah dan tinggi." },
+                    { text: "Garisan Putus-putus", isCorrect: false, rationale: "TIDAK TEPAT! Garisan putus-putus memberi kesan pergerakan terputus." }
+                ]
+            },
+            {
+                category: "GARISAN",
+                question: "Apakah kesan perasaan yang ditunjukkan oleh Garisan Mencondong (Miring)?",
+                hint: "Seperti tiang yang hampir tumbang.",
+                options: [
+                    { text: "Perasaan tidak stabil atau hendak jatuh.", isCorrect: true, rationale: "TEPAT! Garisan condong menghasilkan ilusi ketidakstabilan." },
+                    { text: "Perasaan sangat tenang dan teguh.", isCorrect: false, rationale: "SALAH! Itu ialah kesan garisan melintang atau tegak." },
+                    { text: "Perasaan gembira yang teramat sangat.", isCorrect: false, rationale: "BUKAN! Garisan condong khusus menyampaikan rasa tidak stabil." },
+                    { text: "Perasaan kaku dan tegang.", isCorrect: false, rationale: "KURANG TEPAT! Kaku ditunjukkan oleh garisan lurus tebal." }
+                ]
+            },
+            {
+                category: "GARISAN",
+                question: "Garisan Zig-zag selalunya digunakan untuk menggambarkan apa dalam lukisan?",
+                hint: "Fikirkan tentang kilat di langit!",
+                options: [
+                    { text: "Pergerakan bergelora, kilat, atau rasa bahaya.", isCorrect: true, rationale: "SYABAS! Garisan zig-zag mewakili tenaga kuat, kilat, dan bahaya!" },
+                    { text: "Air laut yang tenang dan damai.", isCorrect: false, rationale: "TIDAK TEPAT! Air tenang digambarkan dengan garisan melintang berombak lembut." },
+                    { text: "Bangunan pencakar langit yang teguh.", isCorrect: false, rationale: "SALAH! Bangunan tinggi menggunakan garisan tegak." },
+                    { text: "Buah tembikai yang bulat.", isCorrect: false, rationale: "BUKAN! Buah bulat menggunakan garisan melengkung." }
+                ]
+            },
+            {
+                category: "GARISAN",
+                question: "Apakah fungsi utama garisan dalam menghasilkan lukisan?",
+                hint: "Garisan membantu membentuk sempadan objek.",
+                options: [
+                    { text: "Membentuk rupa, rupa bentuk dan jalinan.", isCorrect: true, rationale: "TEPAT! Garisan adalah asas untuk membina rupa, ton, jalinan dan ruang." },
+                    { text: "Mewarnakan gambar menjadi merah.", isCorrect: false, rationale: "SALAH! Mewarna menggunakan warna, garisan melukis rangka." },
+                    { text: "Menghapuskan gambar yang salah.", isCorrect: false, rationale: "BUKAN! Itu fungsi pemadam wahai anak muridku!" },
+                    { text: "Mengkilapkan kertas lukisan.", isCorrect: false, rationale: "MEREPUK! Garisan tidak mengkilapkan kertas lukisan." }
+                ]
+            },
+            {
+                category: "GARISAN",
+                question: "Garisan halus yang dilukis rapat-rapat akan menghasilkan kesan apa?",
+                hint: "Menunjukkan kawasan yang gelap atau bayang.",
+                options: [
+                    { text: "Ton gelap dan bayang.", isCorrect: true, rationale: "KEBENARAN! Garisan rapat-rapat (cross-hatching) menghasilkan ton gelap!" },
+                    { text: "Kesan kawasan terang dan berkilau.", isCorrect: false, rationale: "SALAH! Kawasan terang memerlukan garisan jarang atau tiada garisan." },
+                    { text: "Warna pelangi.", isCorrect: false, rationale: "BUKAN! Kerapatan garisan mempengaruhi ton, bukan warna." },
+                    { text: "Kertas menjadi koyak.", isCorrect: false, rationale: "TIDAK TEPAT! Kecuali jika anda menekan pensel terlalu kuat!" }
+                ]
+            },
+            {
+                category: "GARISAN",
+                question: "Apakah teknik garisan yang mengulang-ulang garisan bersilang untuk membina ton?",
+                hint: "Dikenali sebagai silang-menyilang.",
+                options: [
+                    { text: "Teknik Garisan Silang (Cross-Hatching)", isCorrect: true, rationale: "TEPAT! Cross-Hatching ialah teknik silang-menyilang garisan untuk mencipta ton." },
+                    { text: "Teknik Titik (Stippling)", isCorrect: false, rationale: "SALAH! Stippling menggunakan titik, bukannya garisan bersilang." },
+                    { text: "Teknik Catan Wet-on-wet", isCorrect: false, rationale: "BUKAN! Itu teknik catan air." },
+                    { text: "Teknik Renjikan", isCorrect: false, rationale: "TIDAK TEPAT! Renjikan menggunakan percikan warna." }
+                ]
+            },
+            {
+                category: "GARISAN",
+                question: "Garisan Melengkung memberi kesan dan perasaan apa pada lukisan?",
+                hint: "Fikirkan tentang pergerakan ombak.",
+                options: [
+                    { text: "Kelembutan, keharmonian dan pergerakan lancar.", isCorrect: true, rationale: "KEBENARAN! Garisan melengkung mewujudkan rasa lembut dan dinamik." },
+                    { text: "Kekerasan dan ketegangan.", isCorrect: false, rationale: "SALAH! Kekerasan ditunjukkan oleh garisan lurus tebal." },
+                    { text: "Kesunyian yang menakutkan.", isCorrect: false, rationale: "BUKAN! Garisan melengkung menunjukkan kelembutan." },
+                    { text: "Kesan patah-patah.", isCorrect: false, rationale: "TIDAK TEPAT! Kesan patah dihasilkan oleh garisan putus-putus." }
+                ]
+            },
+            {
+                category: "GARISAN",
+                question: "Objek alam manakah yang mempunyai Garisan Berpusat?",
+                hint: "Lihat sarang labah-labah!",
+                options: [
+                    { text: "Sarang labah-labah dan ubat nyamuk lingkaran.", isCorrect: true, rationale: "SYABAS! Sarang labah-labah mengaplikasikan garisan berpusat/spiral!" },
+                    { text: "Tiang elektrik di tepi jalan.", isCorrect: false, rationale: "SALAH! Tiang elektrik mempunyai garisan tegak." },
+                    { text: "Kertas lukisan yang rata.", isCorrect: false, rationale: "BUKAN! Kertas lukisan tiada garisan semula jadi berpusat." },
+                    { text: "Batu bata dinding kelas.", isCorrect: false, rationale: "TIDAK TEPAT! Batu bata bergarisan melintang dan tegak." }
+                ]
+            },
+            {
+                category: "GARISAN",
+                question: "Apabila garisan tebal digunakan pada lukisan, apakah kesan visualnya?",
+                hint: "Nampak lebih dekat dan ketara.",
+                options: [
+                    { text: "Menunjukkan objek yang dekat, tegap dan berat.", isCorrect: true, rationale: "TEPAT! Garisan tebal memberi penegasan objek berdekatan." },
+                    { text: "Menunjukkan objek sangat jauh dan samar.", isCorrect: false, rationale: "SALAH! Objek jauh dilukis dengan garisan nipis." },
+                    { text: "Menghasilkan warna kuning secara automatik.", isCorrect: false, rationale: "MEREPUK! Garisan tidak menukar warna dengan sendirinya." },
+                    { text: "Membuatkan lukisan hilang.", isCorrect: false, rationale: "BUKAN! Garisan tebal menjadikannya lebih jelas." }
+                ]
+            },
+            {
+                category: "GARISAN",
+                question: "Manakah antara berikut BUKAN alatan untuk menghasilkan garisan?",
+                hint: "Pilih alatan yang memadam garisan.",
+                options: [
+                    { text: "Pemadam halus", isCorrect: true, rationale: "KEBENARAN! Pemadam digunakan untuk memadam kesan garisan." },
+                    { text: "Pensel 2B", isCorrect: false, rationale: "SALAH! Pensel ialah alat utama menghasilkan garisan." },
+                    { text: "Pen Kaligrafi", isCorrect: false, rationale: "BUKAN! Pen kaligrafi menghasilkan garisan berhias." },
+                    { text: "Arang (Charcoal)", isCorrect: false, rationale: "TIDAK TEPAT! Arang menghasilkan garisan hitam yang tebal." }
+                ]
+            },
+
+            // --- 10 SOALAN RUANG ---
+            {
+                category: "RUANG",
+                question: "Apakah yang dimaksudkan dengan Ruang Terbuka?",
+                hint: "Kawasan lapang tanpa penghadang.",
+                options: [
+                    { text: "Kawasan lapang yang tidak dibatasi seperti di padang sekolah.", isCorrect: true, rationale: "TEPAT! Ruang terbuka ialah ruang luar tanpa halangan dinding." },
+                    { text: "Ruang di dalam bilik darjah yang ditutup pintu.", isCorrect: false, rationale: "SALAH! Itu dipanggil Ruang Tertutup!" },
+                    { text: "Ruang di dalam kotak kasut.", isCorrect: false, rationale: "BUKAN! Kotak kasut tergolong dalam ruang tertutup." },
+                    { text: "Ruang di bawah meja guru.", isCorrect: false, rationale: "TIDAK TEPAT! Itu merujuk kepada ruang tertutup." }
+                ]
+            },
+            {
+                category: "RUANG",
+                question: "Ruang Tertutup biasanya merujuk kepada kawasan seperti apa?",
+                hint: "Dibatasi oleh dinding dan bumbung.",
+                options: [
+                    { text: "Di dalam bilik, dewan, atau perpustakaan.", isCorrect: true, rationale: "KEBENARAN! Ruang tertutup dibatasi oleh struktur fizikal seperti dinding." },
+                    { text: "Di atas bukit yang lapang.", isCorrect: false, rationale: "SALAH! Atas bukit ialah contoh Ruang Terbuka." },
+                    { text: "Di tengah-tengah laut luas.", isCorrect: false, rationale: "BUKAN! Laut luas ialah ruang terbuka." },
+                    { text: "Di kawasan padang bola Nitar 2.", isCorrect: false, rationale: "TIDAK TEPAT! Padang bola ialah ruang terbuka." }
+                ]
+            },
+            {
+                category: "RUANG",
+                question: "Apakah gelaran bagi ruang yang wujud pada lukisan permukaan rata (2D)?",
+                hint: "Ruang yang hanya ilusi visual.",
+                options: [
+                    { text: "Ruang Ilusi (Ruang Tampak)", isCorrect: true, rationale: "SYABAS! Ruang pada lukisan 2D ialah Ruang Ilusi." },
+                    { text: "Ruang Nyata", isCorrect: false, rationale: "SALAH! Ruang Nyata wujud pada objek 3D." },
+                    { text: "Ruang Angkasa Lepas", isCorrect: false, rationale: "BUKAN! Angkasa lepas bukannya istilah ruang lukisan." },
+                    { text: "Ruang Tersekat", isCorrect: false, rationale: "TIDAK TEPAT! Tiada istilah ruang tersekat dalam seni." }
+                ]
+            },
+            {
+                category: "RUANG",
+                question: "Ruang Nyata boleh dirasai dan wujud pada karya jenis apa?",
+                hint: "Karya 3D yang boleh disentuh.",
+                options: [
+                    { text: "Karya Tiga Dimensi (3D) seperti Arca dan Seramik.", isCorrect: true, rationale: "KEBENARAN! Ruang nyata wujud pada objek fizikal 3D yang boleh dipegang." },
+                    { text: "Lukisan pensel atas kertas.", isCorrect: false, rationale: "SALAH! Lukisan kertas hanya ada ruang ilusi." },
+                    { text: "Gambar foto di dalam telefon bimbit.", isCorrect: false, rationale: "BUKAN! Foto di skrin ialah ilusi 2D." },
+                    { text: "Catan cat air di atas kanvas.", isCorrect: false, rationale: "TIDAK TEPAT! Catan hanya mempunyai ruang ilusi." }
+                ]
+            },
+            {
+                category: "RUANG",
+                question: "Dalam perspektif, objek yang berada di DEKAT akan kelihatan bagaimanakah berbanding objek JAUH?",
+                hint: "Objek dekat nampak lebih besar.",
+                options: [
+                    { text: "Lebih BESAR dan JELAS.", isCorrect: true, rationale: "TEPAT! Mengikut hukum perspektif, objek dekat kelihatan besar dan jelas!" },
+                    { text: "Lebih KECIL dan KABUR.", isCorrect: false, rationale: "SALAH! Objek jauh yang kelihatan kecil dan kabur." },
+                    { text: "Mempunyai warna hitam sahaja.", isCorrect: false, rationale: "BUKAN! Jarak tidak menukar semua warna jadi hitam." },
+                    { text: "Hilang dari pandangan.", isCorrect: false, rationale: "MEREPUK! Objek dekat paling nampak jelas!" }
+                ]
+            },
+            {
+                category: "RUANG",
+                question: "Apakah titik pertembungan di garisan ufuk dalam lukisan perspektif dipanggil?",
+                hint: "Titik di mana semua garisan menuju dan lesap.",
+                options: [
+                    { text: "Titik Lesap (Vanishing Point)", isCorrect: true, rationale: "KEBENARAN! Titik Lesap ialah titik di mana garisan perspektif menghilang." },
+                    { text: "Titik Garisan", isCorrect: false, rationale: "SALAH! Tiada istilah titik garisan." },
+                    { text: "Titik Tengah Kertas", isCorrect: false, rationale: "BUKAN! Titik lesap boleh berada di mana-mana sepanjang garisan ufuk." },
+                    { text: "Titik Mula Lukisan", isCorrect: false, rationale: "TIDAK TEPAT! Titik mula melukis tidak semestinya titik lesap." }
+                ]
+            },
+            {
+                category: "RUANG",
+                question: "Perubahan warna daripada terang di hadapan kepada makin kabur di belakang dipanggil ruang apa?",
+                hint: "Melibatkan atmosfera dan jarak.",
+                options: [
+                    { text: "Ruang Atmosfera / Perspektif Warna", isCorrect: true, rationale: "TEPAT! Perubahan kejelasan warna akibat jarak dipanggil ruang atmosfera." },
+                    { text: "Ruang Fizikal", isCorrect: false, rationale: "SALAH! Ruang fizikal ialah ruang nyata sekeliling kita." },
+                    { text: "Ruang Geometri", isCorrect: false, rationale: "BUKAN! Ruang geometri merujuk rupa Matematik." },
+                    { text: "Ruang Kosong", isCorrect: false, rationale: "TIDAK TEPAT! Ruang kosong merujuk kawasan tanpa objek." }
+                ]
+            },
+            {
+                category: "RUANG",
+                question: "Manakah antara berikut teknik mewujudkan Ruang Ilusi dalam lukisan?",
+                hint: "Susunan objek bertindih.",
+                options: [
+                    { text: "Tindihan objek, perbezaan saiz dan perspektif.", isCorrect: true, rationale: "SYABAS! Tindihan objek dan saiz berbeza berkesan membina ilusi ruang!" },
+                    { text: "Mewarna semua kawasan dengan cat hitam.", isCorrect: false, rationale: "SALAH! Mewarna hitam penuh menghilangkan ilusi ruang." },
+                    { text: "Merobek kertas lukisan.", isCorrect: false, rationale: "MEREPUK! Merobek kertas merosakkan karya!" },
+                    { text: "Lukis satu titik sahaja di tengah kertas.", isCorrect: false, rationale: "TIDAK TEPAT! Satu titik tidak menunjukkan ilusi ruang." }
+                ]
+            },
+            {
+                category: "RUANG",
+                question: "Latar Hadapan (Foreground) dalam sesebuah karya catan merujuk kepada kawasan yang mana?",
+                hint: "Kawasan paling hampir dengan pemerhati.",
+                options: [
+                    { text: "Kawasan bahagian bawah/paling dekat.", isCorrect: true, rationale: "KEBENARAN! Latar hadapan ialah bahagian terdekat dengan pemandang." },
+                    { text: "Kawasan langit di atas sekali.", isCorrect: false, rationale: "SALAH! Langit biasanya latar belakang (background)." },
+                    { text: "Kawasan pertengahan gambar.", isCorrect: false, rationale: "BUKAN! Itu dipanggil Latar Tengah." },
+                    { text: "Kawasan di belakang bukit.", isCorrect: false, rationale: "TIDAK TEPAT! Itu ialah Latar Belakang." }
+                ]
+            },
+            {
+                category: "RUANG",
+                question: "Apakah kepentingan wujudnya ruang dalam sesebuah lukisan pemandangan?",
+                hint: "Supaya lukisan ada kedalaman.",
+                options: [
+                    { text: "Memberikan kesan kedalaman dan kerealistikan.", isCorrect: true, rationale: "TEPAT! Ruang menjadikan karya nampak wujud kedalaman 3D!" },
+                    { text: "Menjadikan lukisan nampak sangat leper.", isCorrect: false, rationale: "SALAH! Ruang menghalang lukisan daripada nampak leper." },
+                    { text: "Mengurangkan penggunaan warna.", isCorrect: false, rationale: "BUKAN! Ruang tidak bertujuan jimatkan warna." },
+                    { text: "Mempercepatkan masa melukis.", isCorrect: false, rationale: "TIDAK TEPAT! Pembinaan ruang memerlukan ketelitian." }
+                ]
+            },
+
+            // --- 10 SOALAN RUPA ---
+            {
+                category: "RUPA",
+                question: "Bagaimanakah sesuatu RUPA terbentuk?",
+                hint: "Garisan bertemu dari mana ia bermula.",
+                options: [
+                    { text: "Apabila hujung garisan bertemu dengan titik permulaannya.", isCorrect: true, rationale: "KEBENARAN! Rupa ialah kawasan 2D yang dikelilingi garisan bersambung!" },
+                    { text: "Apabila dua garisan sejajar dilukis tanpa bertemu.", isCorrect: false, rationale: "SALAH! Garisan tidak bertemu hanya jadi garisan selari." },
+                    { text: "Apabila cat air ditumpahkan ke lantai.", isCorrect: false, rationale: "BUKAN! Rupa terhasil dari sempadan kawasan bersambung." },
+                    { text: "Apabila kertas dilipat dua.", isCorrect: false, rationale: "TIDAK TEPAT! Lipatan kertas menghasilkan garisan lipatan." }
+                ]
+            },
+            {
+                category: "RUPA",
+                question: "Berapakah dimensi yang ada pada sesuatu Rupa?",
+                hint: "Ia rata dan tiada isi padu.",
+                options: [
+                    { text: "Dua Dimensi (2D) - Panjang dan Lebar sahaja.", isCorrect: true, rationale: "TEPAT! Rupa ialah permukaan rata 2D!" },
+                    { text: "Tiga Dimensi (3D) - Ada panjang, lebar dan tinggi.", isCorrect: false, rationale: "SALAH! Itu ialah Bentuk, bukannya Rupa!" },
+                    { text: "Satu Dimensi (1D) sahaja.", isCorrect: false, rationale: "BUKAN! Garisan ialah 1D." },
+                    { text: "Empat Dimensi (4D).", isCorrect: false, rationale: "MEREPUK! Tiada rupa 4D dalam kertas lukisan!" }
+                ]
+            },
+            {
+                category: "RUPA",
+                question: "Manakah antara berikut merupakan contoh Rupa Geometri?",
+                hint: "Rupa bersudut tepat buatan manusia.",
+                options: [
+                    { text: "Segi tiga, bulatan, segi empat dan trapezium.", isCorrect: true, rationale: "SYABAS! Rupa geometri ialah rupa bersudut dan tepat!" },
+                    { text: "Rupa daun gugur dan awan.", isCorrect: false, rationale: "SALAH! Daun dan awan ialah contoh Rupa Organik!" },
+                    { text: "Rupa tumpahan kuah kari.", isCorrect: false, rationale: "BUKAN! Tumpahan cecair ialah Rupa Organik/Bebas." },
+                    { text: "Rupa ikatan tali kasut.", isCorrect: false, rationale: "TIDAK TEPAT! Tali kasut membentuk rupa organik." }
+                ]
+            },
+            {
+                category: "RUPA",
+                question: "Apakah sifat utama bagi Rupa Organik?",
+                hint: "Rupa bebas semula jadi.",
+                options: [
+                    { text: "Rupa bebas, tidak sekata dan berasaskan alam semula jadi.", isCorrect: true, rationale: "KEBENARAN! Rupa organik mengalir bebas seperti haiwan dan daun." },
+                    { text: "Rupa yang mempunyai sudut 90 darjah sahaja.", isCorrect: false, rationale: "SALAH! Rupa bersudut tepat ialah rupa geometri." },
+                    { text: "Rupa yang mesti dilukis dengan pembaris.", isCorrect: false, rationale: "BUKAN! Rupa organik dilukis secara bebas." },
+                    { text: "Rupa yang tegar dan berdinding keras.", isCorrect: false, rationale: "TIDAK TEPAT! Itu ciri rupa geometri." }
+                ]
+            },
+            {
+                category: "RUPA",
+                question: "Rupa Positif merujuk kepada kawasan yang mana satu?",
+                hint: "Kawasan objek itu berada.",
+                options: [
+                    { text: "Kawasan rupa objek itu sendiri.", isCorrect: true, rationale: "TEPAT! Rupa positif ialah kawasan diletakkannya rupa objek." },
+                    { text: "Kawasan latar belakang di sekeliling objek.", isCorrect: false, rationale: "SALAH! Kawasan latar belakang dipanggil Rupa Negatif!" },
+                    { text: "Kawasan yang diwarnakan dengan warna kuning sahaja.", isCorrect: false, rationale: "BUKAN! Warna tidak menentukan positif atau negatif rupa." },
+                    { text: "Kawasan luar daripada kertas lukisan.", isCorrect: false, rationale: "MEREPUK! Luar kertas tiada rupa lukisan." }
+                ]
+            },
+            {
+                category: "RUPA",
+                question: "Kawasan sekeliling yang mengelilingi Rupa Positif dipanggil rupa apa?",
+                hint: "Kawasan latar belakang.",
+                options: [
+                    { text: "Rupa Negatif", isCorrect: true, rationale: "KEBENARAN! Kawasan latar kosong sekitar objek dipanggil Rupa Negatif." },
+                    { text: "Rupa Neutral", isCorrect: false, rationale: "SALAH! Tiada istilah rupa neutral." },
+                    { text: "Rupa Bayang", isCorrect: false, rationale: "BUKAN! Bayang ialah kesan cahaya." },
+                    { text: "Rupa Luar", isCorrect: false, rationale: "TIDAK TEPAT! Istilah rasminya ialah Rupa Negatif." }
+                ]
+            },
+            {
+                category: "RUPA",
+                question: "Pengulangan rupa yang sama secara berturut-turut akan menghasilkan apa?",
+                hint: "Menghasilkan corak.",
+                options: [
+                    { text: "Corak dan Motif.", isCorrect: true, rationale: "SYABAS! Rupa yang diulang-ulang akan menghasilkan Corak dan Motif!" },
+                    { text: "Bunyi muzik yang merdu.", isCorrect: false, rationale: "MEREPUK! Rupa ialah seni visual." },
+                    { text: "Bentuk 3D secara automatik.", isCorrect: false, rationale: "SALAH! Pengulangan rupa menghasilkan corak." },
+                    { text: "Kertas bertukar tebal.", isCorrect: false, rationale: "BUKAN! Kertas kekal tebal asal." }
+                ]
+            },
+            {
+                category: "RUPA",
+                question: "Simbol dan Logo kelab dibina berasaskan pengolahan unsur seni apa?",
+                hint: "Sesuatu yang ringkas dan mudah dicetak.",
+                options: [
+                    { text: "Rupa", isCorrect: true, rationale: "TEPAT! Logo dan simbol dicipta ringkas mengaplikasikan Rupa!" },
+                    { text: "Bentuk 3D", isCorrect: false, rationale: "SALAH! Logo biasanya dipersembahkan dalam rupa 2D." },
+                    { text: "Jalinan Sentuh", isCorrect: false, rationale: "BUKAN! Kebanyakan logo dicetak rata." },
+                    { text: "Ruang Nyata", isCorrect: false, rationale: "TIDAK TEPAT! Logo dibina atas unsur rupa." }
+                ]
+            },
+            {
+                category: "RUPA",
+                question: "Muka Taip (Tipografi) atau abjad A, B, C tergolong dalam kategori rupa apa?",
+                hint: "Abjad tulisan.",
+                options: [
+                    { text: "Rupa Muka Taip / Abjad", isCorrect: true, rationale: "KEBENARAN! Huruf dan simbol tulisan ialah olahan Rupa Muka Taip." },
+                    { text: "Rupa Organik Asli", isCorrect: false, rationale: "SALAH! Abjad direka oleh manusia." },
+                    { text: "Rupa Arca", isCorrect: false, rationale: "BUKAN! Abjad rata ialah rupa 2D." },
+                    { text: "Rupa Bayangan", isCorrect: false, rationale: "TIDAK TEPAT! Abjad ialah rupa positif yang jelas." }
+                ]
+            },
+            {
+                category: "RUPA",
+                question: "Apakah perbezaan paling UTAMA antara Rupa dan Bentuk?",
+                hint: "Rupa 2D, Bentuk 3D.",
+                options: [
+                    { text: "Rupa tiada isi padu (2D), Bentuk mempunyai isi padu/jisim (3D).", isCorrect: true, rationale: "TEPAT SEKALI! Rupa adalah 2D, manakala Bentuk adalah 3D!" },
+                    { text: "Rupa mesti berwarna merah, bentuk berwarna hijau.", isCorrect: false, rationale: "MEREPUK! Warna tidak menentukan perbezaan rupa dan bentuk." },
+                    { text: "Rupa dihasilkan guna pensel, bentuk guna cat.", isCorrect: false, rationale: "SALAH! Kedua-duanya boleh dihasilkan dengan pelbagai media." },
+                    { text: "Tiada sebarang perbezaan.", isCorrect: false, rationale: "TIDAK TEPAT! Perbezaannya sangat jelas dari segi dimensi!" }
+                ]
+            },
+
+            // --- 10 SOALAN BENTUK ---
+            {
+                category: "BENTUK",
+                question: "Bentuk merujuk kepada objek yang mempunyai berapa dimensi?",
+                hint: "Ada panjang, lebar dan tinggi.",
+                options: [
+                    { text: "Tiga Dimensi (3D)", isCorrect: true, rationale: "KEBENARAN! Bentuk ialah objek Tiga Dimensi (3D) yang mempunyai isi padu." },
+                    { text: "Dua Dimensi (2D)", isCorrect: false, rationale: "SALAH! 2D ialah rupa wahai muridku!" },
+                    { text: "Satu Dimensi (1D)", isCorrect: false, rationale: "BUKAN! 1D merujuk kepada garisan." },
+                    { text: "Kosong Dimensi (0D)", isCorrect: false, rationale: "TIDAK TEPAT! 0D merujuk kepada titik." }
+                ]
+            },
+            {
+                category: "BENTUK",
+                question: "Manakah antara berikut merupakan ciri-ciri utama BENTUK?",
+                hint: "Boleh dilihat dari pelbagai sudut.",
+                options: [
+                    { text: "Mempunyai struktur, isi padu, jisim dan boleh dilihat dari pelbagai sudut.", isCorrect: true, rationale: "SYABAS! Itulah ciri-ciri lengkap objek berbentuk 3D!" },
+                    { text: "Sangat rata apabila disentuh atas kertas.", isCorrect: false, rationale: "SALAH! Permukaan rata pada kertas ialah rupa 2D." },
+                    { text: "Tiada sebarang berat atau jisim.", isCorrect: false, rationale: "BUKAN! Bentuk fizikal mempunyai jisim." },
+                    { text: "Hanya mempunyai satu garisan lurus sahaja.", isCorrect: false, rationale: "TIDAK TEPAT! Satu garisan tidak membina bentuk." }
+                ]
+            },
+            {
+                category: "BENTUK",
+                question: "Bentuk Konkrit ialah bentuk yang bagaimana?",
+                hint: "Boleh disentuh dan dipegang secara fizikal.",
+                options: [
+                    { text: "Bentuk wujud 3D nyata yang boleh disentuh dan dipegang.", isCorrect: true, rationale: "KEBENARAN! Bentuk konkrit ialah objek 3D sebenar seperti kerusi dan bola!" },
+                    { text: "Bentuk yang hanya dilukis atas kertas lukisan.", isCorrect: false, rationale: "SALAH! Lukisan atas kertas ialah Bentuk Ilusi!" },
+                    { text: "Bentuk bayangan di dinding.", isCorrect: false, rationale: "BUKAN! Bayangan ialah bentuk/rupa ilusi cahaya." },
+                    { text: "Bentuk dalam fikiran sahaja.", isCorrect: false, rationale: "TIDAK TEPAT! Bayangan fikiran bukan bentuk konkrit." }
+                ]
+            },
+            {
+                category: "BENTUK",
+                question: "Apakah contoh objek Bentuk Konkrit di sekolah anda?",
+                hint: "Objek fizikal di sekeliling anda.",
+                options: [
+                    { text: "Kerusi, meja, dan bola sepak Nitar 2.", isCorrect: true, rationale: "TEPAT! Kerusi dan meja wujud secara fizikal 3D (Bentuk Konkrit)." },
+                    { text: "Lukisan gambar bola di dalam buku teks.", isCorrect: false, rationale: "SALAH! Gambar dalam buku ialah Bentuk Ilusi." },
+                    { text: "Bayang-bayang tiang bendera.", isCorrect: false, rationale: "BUKAN! Bayang-bayang tiada isi padu nyata." },
+                    { text: "Watak kartun dalam skrin TV.", isCorrect: false, rationale: "TIDAK TEPAT! Watak dalam skrin TV ialah bentuk ilusi 2D." }
+                ]
+            },
+            {
+                category: "BENTUK",
+                question: "Bentuk Ilusi pula merujuk kepada bentuk yang bagaimana?",
+                hint: "Bentuk 3D pada permukaan rata 2D.",
+                options: [
+                    { text: "Bentuk 3D yang dihasilkan melalui lukisan pada permukaan rata 2D.", isCorrect: true, rationale: "SYABAS! Bentuk ilusi kelihatan 3D tetapi hanya rata pada lukisan 2D!" },
+                    { text: "Bentuk kereta sebenar di jalan raya.", isCorrect: false, rationale: "SALAH! Kereta sebenar ialah Bentuk Konkrit." },
+                    { text: "Bentuk batu yang dipegang di tangan.", isCorrect: false, rationale: "BUKAN! Batu pegangan ialah Bentuk Konkrit." },
+                    { text: "Bentuk binaan rumah simen.", isCorrect: false, rationale: "TIDAK TEPAT! Rumah simen ialah Bentuk Konkrit." }
+                ]
+            },
+            {
+                category: "BENTUK",
+                question: "Bagaimanakah pelukis menukarkan RUPA 2D menjadi BENTUK ILUSI 3D pada kertas?",
+                hint: "Guna kesan cahaya dan bayang.",
+                options: [
+                    { text: "Memasukkan kesan ton warna, cahaya dan bayang.", isCorrect: true, rationale: "KEBENARAN! Aplikasi ton terang gelap membina ilusi isi padu 3D!" },
+                    { text: "Mewarnakan rupa itu dengan satu warna rata sahaja.", isCorrect: false, rationale: "SALAH! Warna rata membuatkan rupa kekal kelihatan 2D." },
+                    { text: "Memadam semula garisan rupa.", isCorrect: false, rationale: "BUKAN! Memadam akan menghilangkan lukisan." },
+                    { text: "Guna pembaris untuk menekan kertas.", isCorrect: false, rationale: "MEREPUK! Menekan kertas bukan cara seni melukis bentuk ilusi." }
+                ]
+            },
+            {
+                category: "BENTUK",
+                question: "Apakah nama bentuk 3D bagi rupa asas Segi Empat Sama?",
+                hint: "Bentuk dadu.",
+                options: [
+                    { text: "Kubus (Cube)", isCorrect: true, rationale: "TEPAT! Segi empat sama yang mempunyai isi padu 3D dipanggil Kubus!" },
+                    { text: "Silinder", isCorrect: false, rationale: "SALAH! Silinder berasaskan rupa bulatan." },
+                    { text: "Piramid", isCorrect: false, rationale: "BUKAN! Piramid berasaskan rupa segi tiga." },
+                    { text: "Sfera", isCorrect: false, rationale: "TIDAK TEPAT! Sfera berasaskan rupa bulatan." }
+                ]
+            },
+            {
+                category: "BENTUK",
+                question: "Apakah rupa asas yang membentuk objek 3D seperti Bola Sepak (Sfera)?",
+                hint: "Rupa tanpa sudut.",
+                options: [
+                    { text: "Rupa Bulatan", isCorrect: true, rationale: "SYABAS! Rupa Bulatan 2D jika diolah dengan ton akan membentuk Sfera 3D!" },
+                    { text: "Rupa Segi Tiga", isCorrect: false, rationale: "SALAH! Rupa segi tiga menghasilkan kon atau piramid." },
+                    { text: "Rupa Trapezium", isCorrect: false, rationale: "BUKAN! Trapezium tidak membina sfera." },
+                    { text: "Rupa Bintang", isCorrect: false, rationale: "TIDAK TEPAT! Bintang tidak membina sfera." }
+                ]
+            },
+            {
+                category: "BENTUK",
+                question: "Batang pokok dan tin minuman mempunyai jenis Bentuk Geometri apa?",
+                hint: "Bentuk silinder.",
+                options: [
+                    { text: "Silinder", isCorrect: true, rationale: "KEBENARAN! Tin minuman dan batang pokok berbentuk Silinder!" },
+                    { text: "Kuboid", isCorrect: false, rationale: "SALAH! Kuboid berkotak segi empat." },
+                    { text: "Kon", isCorrect: false, rationale: "BUKAN! Kon meruncing di atas." },
+                    { text: "Piramid", isCorrect: false, rationale: "TIDAK TEPAT! Piramid mempunyai puncak tajam." }
+                ]
+            },
+            {
+                category: "BENTUK",
+                question: "Mengapakah pembuat arca memerlukan pemahaman tentang Bentuk Konkrit?",
+                hint: "Arca dipasang di ruang nyata.",
+                options: [
+                    { text: "Supaya arca mempunyai kestabilan dan nilai 3D yang kukuh.", isCorrect: true, rationale: "TEPAT! Pembuat arca membina objek 3D yang perlu berdiri kukuh di dalam ruang nyata." },
+                    { text: "Supaya arca boleh dilipat dalam buku.", isCorrect: false, rationale: "SALAH! Arca konkrit 3D bukan lukisan kertas." },
+                    { text: "Supaya arca bertukar menjadi lut sinar.", isCorrect: false, rationale: "BUKAN! Warna tidak bertukar lut sinar secara automatik." },
+                    { text: "Supaya arca boleh terapung.", isCorrect: false, rationale: "MEREPUK! Arca tertakluk kepada graviti bumi!" }
+                ]
+            },
+
+            // --- 10 SOALAN WARNA ---
+            {
+                category: "WARNA",
+                question: "Apakah 3 warna yang tergolong dalam Kumpulan WARNA ASAS (Warna Utama)?",
+                hint: "Warna yang tidak boleh dihasilkan dari campuran warna lain.",
+                options: [
+                    { text: "Merah, Biru, dan Kuning.", isCorrect: true, rationale: "KEBENARAN! Merah, Biru dan Kuning ialah 3 Warna Asas (Induk)!" },
+                    { text: "Hijau, Jingga, dan Ungu.", isCorrect: false, rationale: "SALAH! Itu ialah Warna Sekunder!" },
+                    { text: "Hitam, Putih, dan Kelabu.", isCorrect: false, rationale: "BUKAN! Itu dipanggil Warna Neutral." },
+                    { text: "Merah, Hijau, dan Coklat.", isCorrect: false, rationale: "TIDAK TEPAT! Hijau ialah warna sekunder." }
+                ]
+            },
+            {
+                category: "WARNA",
+                question: "Bagaimanakah WARNA SEKUNDER terhasil?",
+                hint: "Campuran dua warna utama.",
+                options: [
+                    { text: "Mencampurkan DUA warna asas dengan nisbah sama.", isCorrect: true, rationale: "TEPAT! Campuran dua warna asas menghasilkan warna sekunder!" },
+                    { text: "Mencampurkan warna asas dengan warna hitam.", isCorrect: false, rationale: "SALAH! Campuran hitam menghasilkan ton gelap warna." },
+                    { text: "Mencampurkan semua warna di dunia sekaligus.", isCorrect: false, rationale: "BUKAN! Campuran semua warna menghasilkan warna keruh/coklat." },
+                    { text: "Mencampurkan cat air dengan air sabun.", isCorrect: false, rationale: "MEREPUK! Air sabun merosakkan cat!" }
+                ]
+            },
+            {
+                category: "WARNA",
+                question: "Campuran Warna Asas BIRU + KUNING akan menghasilkan warna sekunder apa?",
+                hint: "Warna daun pokok segar.",
+                options: [
+                    { text: "Warna Hijau", isCorrect: true, rationale: "SYABAS! Biru + Kuning = Hijau!" },
+                    { text: "Warna Jingga", isCorrect: false, rationale: "SALAH! Jingga ialah hasil campuran Merah + Kuning." },
+                    { text: "Warna Ungu", isCorrect: false, rationale: "BUKAN! Ungu ialah hasil campuran Merah + Biru." },
+                    { text: "Warna Coklat", isCorrect: false, rationale: "TIDAK TEPAT! Coklat terhasil dari campuran pelbagai warna." }
+                ]
+            },
+            {
+                category: "WARNA",
+                question: "Apakah warna sekunder yang terhasil apabila anda mencampurkan MERAH + BIRU?",
+                hint: "Warna buah terung.",
+                options: [
+                    { text: "Warna Ungu", isCorrect: true, rationale: "KEBENARAN! Merah + Biru = Ungu!" },
+                    { text: "Warna Hijau", isCorrect: false, rationale: "SALAH! Biru + Kuning yang jadi Hijau." },
+                    { text: "Warna Jingga", isCorrect: false, rationale: "BUKAN! Merah + Kuning jadi Jingga." },
+                    { text: "Warna Merah Jambu", isCorrect: false, rationale: "TIDAK TEPAT! Merah + Putih jadi Merah Jambu." }
+                ]
+            },
+            {
+                category: "WARNA",
+                question: "Warna Tertier terhasil daripada campuran warna apa?",
+                hint: "Satu warna asas + satu warna sekunder.",
+                options: [
+                    { text: "Satu Warna Asas + Satu Warna Sekunder bersebelahan.", isCorrect: true, rationale: "TEPAT! Warna Tertier terhasil dari campuran 1 Warna Asas & 1 Warna Sekunder!" },
+                    { text: "Dua Warna Sekunder dicampur bersama.", isCorrect: false, rationale: "SALAH! Itu tidak menghasilkan warna tertier yang tulen." },
+                    { text: "Tiga warna asas dicampur warna putih.", isCorrect: false, rationale: "BUKAN! Campuran itu jadi ton warna pastel." },
+                    { text: "Warna hitam dicampur warna kelabu.", isCorrect: false, rationale: "TIDAK TEPAT! Itu hanya skala kelabu neutral." }
+                ]
+            },
+            {
+                category: "WARNA",
+                question: "Kumpulan Warna Panas memberikan rasa dan suasana yang bagaimana?",
+                hint: "Fikirkan tentang api dan matahari.",
+                options: [
+                    { text: "Perasaan riang, bersemangat, bertenaga, atau hangat.", isCorrect: true, rationale: "KEBENARAN! Warna panas (Merah, Kuning, Jingga) memberi ilusi bertenaga!" },
+                    { text: "Perasaan sejuk, tenang, dan damai.", isCorrect: false, rationale: "SALAH! Rasa sejuk datang daripada Warna Sejuk." },
+                    { text: "Perasaan mengantuk.", isCorrect: false, rationale: "BUKAN! Warna panas meningkatkan rangsangan tenaga." },
+                    { text: "Perasaan sedih.", isCorrect: false, rationale: "TIDAK TEPAT! Warna panas identik dengan tenaga bersemangat." }
+                ]
+            },
+            {
+                category: "WARNA",
+                question: "Manakah antara berikut kombinasi warna yang tergolong dalam WARNA SEJUK?",
+                hint: "Warna air laut dan daun.",
+                options: [
+                    { text: "Biru, Hijau, dan Ungu.", isCorrect: true, rationale: "SYABAS! Biru, Hijau dan Ungu ialah kumpulan Warna Sejuk yang menenangkan!" },
+                    { text: "Merah, Jingga, dan Kuning.", isCorrect: false, rationale: "SALAH! Itu ialah kumpulan Warna Panas!" },
+                    { text: "Hitam, Putih, dan Coklat.", isCorrect: false, rationale: "BUKAN! Hitam dan Putih ialah warna neutral." },
+                    { text: "Emas, Perak, dan Gangsa.", isCorrect: false, rationale: "TIDAK TEPAT! Itu warna logam." }
+                ]
+            },
+            {
+                category: "WARNA",
+                question: "Warna apakah yang dipanggil WARNA NEUTRAL?",
+                hint: "Digunakan untuk menukar nilai ton warna.",
+                options: [
+                    { text: "Hitam, Putih, dan Kelabu.", isCorrect: true, rationale: "TEPAT! Hitam, Putih dan Kelabu ialah warna Neutral." },
+                    { text: "Merah dan Kuning.", isCorrect: false, rationale: "SALAH! Itu warna asas." },
+                    { text: "Hijau dan Jingga.", isCorrect: false, rationale: "BUKAN! Itu warna sekunder." },
+                    { text: "Coklat dan Emas.", isCorrect: false, rationale: "TIDAK TEPAT! Neutral khusus untuk hitam, putih dan kelabu." }
+                ]
+            },
+            {
+                category: "WARNA",
+                question: "Gubahan Warna Sewarna (Monokrom) dihasilkan dengan cara apa?",
+                hint: "Satu warna dengan pelbagai ton.",
+                options: [
+                    { text: "Menggunakan SATU warna sahaja dengan pelbagai ton.", isCorrect: true, rationale: "KEBENARAN! Warna Sewarna (Monokrom) menggunakan satu warna berserta ton!" },
+                    { text: "Menggunakan semua warna pelangi.", isCorrect: false, rationale: "SALAH! Semua warna pelangi dipanggil warna pelbagai." },
+                    { text: "Mencampurkan warna merah dan hijau sahaja.", isCorrect: false, rationale: "BUKAN! Red & Green ialah warna penggenap." },
+                    { text: "Lukisan tanpa sebarang warna.", isCorrect: false, rationale: "TIDAK TEPAT! Monokrom berasaskan satu tona warna." }
+                ]
+            },
+            {
+                category: "WARNA",
+                question: "Warna Penggenap ialah pasangan warna yang kedudukannya di mana dalam Roda Warna?",
+                hint: "Berada bertentangan secara terus.",
+                options: [
+                    { text: "Kedudukan yang BERTENTANGAN terus dalam Roda Warna.", isCorrect: true, rationale: "SYABAS! Warna Penggenap duduk bertentangan (cth: Merah vs Hijau)!" },
+                    { text: "Kedudukan yang sebelah-sebelah sahaja.", isCorrect: false, rationale: "SALAH! Warna sebelah-sebelah dipanggil Warna Harmoni." },
+                    { text: "Di luar Roda Warna.", isCorrect: false, rationale: "BUKAN! Semua warna berada dalam roda warna." },
+                    { text: "Di tengah-tengah Roda Warna.", isCorrect: false, rationale: "TIDAK TEPAT! Kedudukannya bertentangan garisan pusat." }
+                ]
+            },
+
+            // --- 10 SOALAN JALINAN ---
+            {
+                category: "JALINAN",
+                question: "Apakah maksud JALINAN dalam unsur seni visual?",
+                hint: "Kesan sifat permukaan.",
+                options: [
+                    { text: "Kesan sifat permukaan sesuatu objek (licin, kasar, kesat, tajam).", isCorrect: true, rationale: "KEBENARAN! Jalinan ialah kesan permukaan yang boleh dirasai!" },
+                    { text: "Panjang dan pendek sesuatu garisan.", isCorrect: false, rationale: "SALAH! Itu ukuran garisan." },
+                    { text: "Berat atau ringan sesuatu arca.", isCorrect: false, rationale: "BUKAN! Berat ialah jisim objek." },
+                    { text: "Kecerahan lampu di dalam bilik.", isCorrect: false, rationale: "MEREPUK! Cahaya lampu bukan jalinan permukaan." }
+                ]
+            },
+            {
+                category: "JALINAN",
+                question: "Jalinan Sentuh boleh dirasai melalui apa?",
+                hint: "Sentuhan tangan dan penglihatan.",
+                options: [
+                    { text: "Boleh dirasai secara SENTUHAN tangan dan penglihatan.", isCorrect: true, rationale: "TEPAT! Jalinan sentuh wujud fizikal—boleh dirasa apabila disentuh!" },
+                    { text: "Hanya boleh dilihat dengan mata, bila sentuh rasa rata.", isCorrect: false, rationale: "SALAH! Itu ciri-ciri Jalinan Tampak!" },
+                    { text: "Boleh didengar dengan telinga sahaja.", isCorrect: false, rationale: "BUKAN! Telinga untuk pendengaran." },
+                    { text: "Boleh dihidu dengan hidung.", isCorrect: false, rationale: "TIDAK TEPAT! Jalinan tiada bau khas." }
+                ]
+            },
+            {
+                category: "JALINAN",
+                question: "Manakah antara berikut contoh objek alam yang mempunyai JALINAN SENTUH KASAR?",
+                hint: "Rasa tajam atau kasap pada tangan.",
+                options: [
+                    { text: "Kulit buah durian dan batang pokok kayu.", isCorrect: true, rationale: "SYABAS! Kulit durian dan batang pokok mempunyai jalinan sentuh kasar!" },
+                    { text: "Cermin tingkap bilik darjah.", isCorrect: false, rationale: "SALAH! Cermin tingkap jalinannya licin." },
+                    { text: "Gambar foto buah durian di atas kertas.", isCorrect: false, rationale: "BUKAN! Gambar foto pada kertas ialah jalinan tampak." },
+                    { text: "Kain sutera yang halus.", isCorrect: false, rationale: "TIDAK TEPAT! Kain sutera berjalinan licin." }
+                ]
+            },
+            {
+                category: "JALINAN",
+                question: "Apakah yang dimaksudkan dengan JALINAN TAMPAK?",
+                hint: "Nampak berjalinan tetapi rata bila disentuh.",
+                options: [
+                    { text: "Jalinan yang hanya boleh DILIHAT tetapi berasa RATA apabila disentuh.", isCorrect: true, rationale: "KEBENARAN! Jalinan tampak ialah ilusi visual di atas permukaan rata!" },
+                    { text: "Jalinan yang tajam sehingga melukakan tangan.", isCorrect: false, rationale: "SALAH! Tajam melukakan ialah jalinan sentuh kasar." },
+                    { text: "Jalinan yang tidak boleh dilihat langsung.", isCorrect: false, rationale: "BUKAN! Jalinan tampak sangat jelas kelihatan pada mata." },
+                    { text: "Jalinan pada objek 3D yang keras.", isCorrect: false, rationale: "TIDAK TEPAT! Objek 3D berjalinan sentuh." }
+                ]
+            },
+            {
+                category: "JALINAN",
+                question: "Manakah contoh karya seni yang mempunyai JALINAN TAMPAK?",
+                hint: "Corak batik pada kain rata.",
+                options: [
+                    { text: "Corak kain batik, gambar foto, dan lukisan catan.", isCorrect: true, rationale: "TEPAT! Corak batik dan foto hanya berupa ilusi visual (Jalinan Tampak)!" },
+                    { text: "Ukiran kayu dinding rumah.", isCorrect: false, rationale: "SALAH! Ukiran kayu mempunyai jalinan sentuh." },
+                    { text: "Tembikar labu sayong yang diukir.", isCorrect: false, rationale: "BUKAN! Labu sayong ada jalinan sentuh nyata." },
+                    { text: "Tikar mengkuang anyaman.", isCorrect: false, rationale: "TIDAK TEPAT! Anyaman mengkuang ada jalinan sentuh." }
+                ]
+            },
+            {
+                category: "JALINAN",
+                question: "Teknik GOSOKAN pada duit syilling di atas kertas akan menghasilkan jalinan jenis apa?",
+                hint: "Permukaan kertas kekal rata.",
+                options: [
+                    { text: "Jalinan Tampak di atas kertas.", isCorrect: true, rationale: "SYABAS! Apabila digosok, kesan duit syiling bertukar menjadi Jalinan Tampak di kertas rata!" },
+                    { text: "Jalinan Sentuh tajam.", isCorrect: false, rationale: "SALAH! Kertas tetap berasa rata selepas digosok." },
+                    { text: "Bentuk 3D sebenar.", isCorrect: false, rationale: "BUKAN! Gosokan tidak timbulkan duit syiling 3D." },
+                    { text: "Warna pelangi secara automatik.", isCorrect: false, rationale: "TIDAK TEPAT! Warna bergantung kepada pensel warna diguna." }
+                ]
+            },
+            {
+                category: "JALINAN",
+                question: "Apakah teknik menghasilkan jalinan sentuh pada karya kraf Seramik/Tembikar?",
+                hint: "Mengukir atau menggores tanah liat.",
+                options: [
+                    { text: "Teknik Ukiran, Capan, atau Menggores permukaan tanah liat.", isCorrect: true, rationale: "KEBENARAN! Menggores dan mengukir tanah liat membina jalinan sentuh nyata!" },
+                    { text: "Teknik mengambil gambar guna kamera.", isCorrect: false, rationale: "SALAH! Kamera menghasilkan foto." },
+                    { text: "Teknik meniup warna guna penyedut minuman.", isCorrect: false, rationale: "BUKAN! Meniup warna menghasilkan corak lukisan." },
+                    { text: "Teknik melipat kertas origami.", isCorrect: false, rationale: "TIDAK TEPAT! Origami ialah seni lipatan kertas." }
+                ]
+            },
+            {
+                category: "JALINAN",
+                question: "Fungsi jalinan pada tapak kasut sukan murid Nitar 2 adalah untuk apa?",
+                hint: "Daya cengkaman keselamatan.",
+                options: [
+                    { text: "Cengkaman keselamatan supaya tidak mudah tergelincir.", isCorrect: true, rationale: "TEPAT! Jalinan kasar pada tapak kasut memberi daya cengkaman keselamatan!" },
+                    { text: "Membuatkan kasut kelihatan berkilat.", isCorrect: false, rationale: "SALAH! Kasut berkilat licin akan menyebabkan tergelincir." },
+                    { text: "Menambah berat kasut.", isCorrect: false, rationale: "BUKAN! Jalinan tapak bukan untuk memberatkan." },
+                    { text: "Supaya kasut mengeluarkan bunyi.", isCorrect: false, rationale: "MEREPUK! Jalinan tidak mengeluarkan bunyi muzik." }
+                ]
+            },
+            {
+                category: "JALINAN",
+                question: "Haiwan manakah yang mengaplikasikan jalinan kasar pada kulitnya untuk perlindungan diri?",
+                hint: "Reptilia berisik tebal.",
+                options: [
+                    { text: "Buaya dan Tenggiling.", isCorrect: true, rationale: "SYABAS! Sisik tebal buaya dan tenggiling ialah jalinan sentuh kasar sebagai perlindungan!" },
+                    { text: "Ikan lumba-lumba licin.", isCorrect: false, rationale: "SALAH! Kulit lumba-lumba licin untuk berenang." },
+                    { text: "Kucing comel.", isCorrect: false, rationale: "BUKAN! Kucing mempunyai jalinan bulu lembut." },
+                    { text: "Burung merpati.", isCorrect: false, rationale: "TIDAK TEPAT! Burung berjalinan bulu pelepah." }
+                ]
+            },
+            {
+                category: "JALINAN",
+                question: "Apakah teknik menghasilkan jalinan tampak dengan menitiskan lilin panas ke atas kain?",
+                hint: "Seni kraf batik tradisional.",
+                options: [
+                    { text: "Teknik Batik Canting", isCorrect: true, rationale: "KEBENARAN! Batik canting menggunakan lilin untuk membentuk jalinan tampak indah!" },
+                    { text: "Teknik Anyaman Mengkuang", isCorrect: false, rationale: "SALAH! Anyaman menghasilkan jalinan sentuh." },
+                    { text: "Teknik Semburan Cat Kereta", isCorrect: false, rationale: "BUKAN! Semburan cat menghasilkan warna rata." },
+                    { text: "Teknik Ukiran Kayu", isCorrect: false, rationale: "TIDAK TEPAT! Ukiran kayu menghasilkan jalinan sentuh kasar." }
+                ]
+            }
+        ];
+
+        // LOGIK GAMIFIKASI
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let streak = 0;
+        let maxStreak = 0;
+        let answered = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            streak = 0;
+            maxStreak = 0;
+
+            document.getElementById('screen-welcome').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+
+            updateHUD();
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            const q = questionsData[currentQuestionIndex];
+
+            document.getElementById('question-tracker').innerText = `Soalan ${currentQuestionIndex + 1} / ${questionsData.length}`;
+            document.getElementById('category-badge').innerText = `KATEGORI: ${q.category}`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / questionsData.length) * 100}%`;
+            
+            document.getElementById('question-text').innerText = q.question;
+            document.getElementById('hint-text').innerText = `💡 PETUNJUK CIKGU KEBENARAN: ${q.hint}`;
+            document.getElementById('hint-text').classList.add('hidden');
+
+            document.getElementById('feedback-area').classList.add('hidden');
+            document.getElementById('next-btn').disabled = true;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-2xl bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 transition-all flex items-start gap-3 group text-sm sm:text-base font-semibold shadow-md";
+                btn.onclick = () => selectOption(idx, btn);
+                btn.innerHTML = `
+                    <span class="w-7 h-7 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/40 font-comic flex items-center justify-center text-sm group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors shrink-0 mt-0.5">
+                        ${String.fromCharCode(65 + idx)}
+                    </span>
+                    <span class="text-slate-100 leading-snug pt-0.5">${opt.text}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectOption(index, btnElement) {
+            if (answered) return;
+            answered = true;
+
+            const q = questionsData[currentQuestionIndex];
+            const selectedOpt = q.options[index];
+            const isCorrect = selectedOpt.isCorrect;
+
+            const container = document.getElementById('options-container');
+            const allBtns = container.querySelectorAll('button');
+
+            allBtns.forEach(b => b.onclick = null);
+
+            if (isCorrect) {
+                btnElement.classList.remove('bg-slate-800/80', 'border-slate-700');
+                btnElement.classList.add('bg-emerald-950/90', 'border-emerald-500', 'text-emerald-200');
+                
+                score += 100 + (streak * 10);
+                streak++;
+                if (streak > maxStreak) maxStreak = streak;
+
+                showFeedback(true, selectedOpt.rationale);
+            } else {
+                btnElement.classList.remove('bg-slate-800/80', 'border-slate-700');
+                btnElement.classList.add('bg-rose-950/90', 'border-rose-500', 'text-rose-200');
+                
+                streak = 0;
+
+                q.options.forEach((opt, i) => {
+                    if (opt.isCorrect) {
+                        allBtns[i].classList.remove('bg-slate-800/80');
+                        allBtns[i].classList.add('bg-emerald-950/50', 'border-emerald-500/60');
+                    }
+                });
+
+                showFeedback(false, selectedOpt.rationale);
+            }
+
+            updateHUD();
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        function showFeedback(isCorrect, rationale) {
+            const feedbackArea = document.getElementById('feedback-area');
+            const feedbackStatus = document.getElementById('feedback-status');
+            const rationaleText = document.getElementById('rationale-text');
+
+            feedbackArea.classList.remove('hidden', 'bg-emerald-950/60', 'border-emerald-500/50', 'bg-rose-950/60', 'border-rose-500/50');
+
+            if (isCorrect) {
+                feedbackArea.classList.add('bg-emerald-950/60', 'border-emerald-500/50');
+                feedbackStatus.className = "flex items-center gap-2 font-comic text-emerald-400 text-xl";
+                feedbackStatus.innerHTML = `<i data-lucide="check-circle" class="w-6 h-6"></i><span>KEBENARAN! JAWAPAN TEPAT!</span>`;
+            } else {
+                feedbackArea.classList.add('bg-rose-950/60', 'border-rose-500/50');
+                feedbackStatus.className = "flex items-center gap-2 font-comic text-rose-400 text-xl";
+                feedbackStatus.innerHTML = `<i data-lucide="alert-triangle" class="w-6 h-6"></i><span>ALAMAK, TERSILAP! BACA PENJELASAN KEBENARAN:</span>`;
+            }
+
+            rationaleText.innerText = rationale;
+            lucide.createIcons();
+        }
+
+        function toggleHint() {
+            const hintText = document.getElementById('hint-text');
+            hintText.classList.toggle('hidden');
+        }
+
+        function updateHUD() {
+            document.getElementById('score-display').innerText = `${score} XP`;
+            document.getElementById('streak-display').innerText = streak;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questionsData.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-result').classList.remove('hidden');
+
+            const maxPossibleXP = questionsData.length * 100;
+            const accuracy = Math.round((score / maxPossibleXP) * 100);
+
+            document.getElementById('final-score').innerText = `${score} XP`;
+            document.getElementById('final-accuracy').innerText = `${accuracy}%`;
+            document.getElementById('final-streak').innerText = maxStreak;
+
+            let rank = "Pahlawan Muda PSV 🎨";
+            if (accuracy >= 85) rank = "SIFU UNSUR SENI KEBENARAN 🌟";
+            else if (accuracy >= 60) rank = "PAHLAWAN KEBENARAN NITAR 2 🚀";
+
+            document.getElementById('rank-title').innerText = `Pangkat Kebenaran: ${rank}`;
+            lucide.createIcons();
+        }
+
+        function resetQuiz() {
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-welcome').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
